@@ -3,8 +3,9 @@
 
 // but you don't so you're going to write it from scratch:
 /*
-Use .toString() for numbers, booleans and nulls
-Return strings as they are, test for strings
+Use '' + for numbers
+Use strings for booleans and nulls
+Return strings surrounded by "", test for strings
 Ignore functions by testing for functions with typeof equals function
 Ingore undefined
 test for arrays recurse on the elements test is array with Array.isArray()
@@ -15,23 +16,27 @@ test for objects recurse on the elements test type is object with typeof equals 
   //this includes [], {}, :, ',', etc.
 //procedure determine the type of the obj received, if its and object or an array,
   //recurses on the elements
-var stringifyJSON = function(obj) {
+var stringifyJSON = function stringify(obj) {
   // your code goes here
   var objectType = typeof obj;
-  //passed internally as a second argument
   var stringifiedObject = '';
   var returnedString = '';
-
-  if (arguments[1] !=== undefined) {
-    stringifiedObject = arguments[1];
-  }
+  //for adding commas to an object
+  var firstPass = true;
 
   //base cases
-  if ((objectType === 'number') || (objectType === 'boolean')
-    || (objectType === 'null')) {
-    return obj.toString();
+  if (objectType === 'number') {
+    return obj + '';
+  } else if (objectType === 'boolean') {
+    if (obj) {
+      return 'true';
+    } else {
+      return 'false';
+    }
+  } else if (obj === null) {
+    return 'null';
   } else if (objectType === 'string') {
-    return obj;
+    return '"' + obj + '"';
   }
 
   //terminating cases
@@ -44,41 +49,40 @@ var stringifyJSON = function(obj) {
     if (obj.length === 0) {
       return '[]';
     }
-    else
+    else {
       stringifiedObject += '['
       for (var i = 0; i < obj.length; i++) {
-        returnedString = stringifyJSON(obj, stringifiedObject);
+        returnedString = stringifyJSON(obj[i]);
         if (returnedString === null) {
-          stringifiedObject += returnedString.toString();
+          stringifiedObject += 'null';
         } else {
-          stringifiedObject += retunredString;
+          stringifiedObject += returnedString;
         }
         if (i < obj.length - 1) {
-          stingifiedObject += ',';
+          stringifiedObject += ',';
         }
       }
       stringifiedObject += ']'
       return stringifiedObject;
+    }
   } else if (objectType === 'object') {
-  //if its an object
-    //if its an empty object
-      //base case return object literal '{}'
-    //else
-      //add a '{'
-      //iterate on all elements
-        //if its not the first key-value pair
-            //add a comma
-        //else
-          //set a bool for first pass to true
-        //recurses on all values
-        //if the value is null
-          //skip that key value pair
-        //else
-          //get the key
-          //add a :
-          //add the stringified value
-      //add a '}'
-    //return the stringified object
+    stringifiedObject += '{';
+    for (var key in obj) {
+      returnedString = stringifyJSON(obj[key]);
+      if (returnedString !== null) {
+        if (firstPass === true) {
+          firstPass = false;
+        }
+        else {
+          stringifiedObject += ',';
+        }
+        stringifiedObject += '"' + key + '"';
+        stringifiedObject += ':';
+        stringifiedObject += returnedString;
+      }
+    }
+    stringifiedObject += '}';
+    return stringifiedObject;
   }
   return stringifiedObject;
 };
