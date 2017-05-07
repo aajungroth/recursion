@@ -33,10 +33,7 @@ var stringifyJSON = function(obj) {
 
   //terminating cases
   if ((objectType === 'function') || (objectType === 'undefined')) {
-  //if its a function
-    //return error null
-  //if its an undefined
-    //return error null
+    return null;
   }
 
   //recursive cases
