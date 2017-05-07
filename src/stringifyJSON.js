@@ -20,8 +20,11 @@ var stringifyJSON = function(obj) {
   var objectType = typeof obj;
   //passed internally as a second argument
   var stringifiedObject = '';
-  //if stringifiedObject is not undefined
-    //update stringifiedObject
+  var returnedString = '';
+
+  if (arguments[1] !=== undefined) {
+    stringifiedObject = arguments[1];
+  }
 
   //base cases
   if ((objectType === 'number') || (objectType === 'boolean')
@@ -38,21 +41,24 @@ var stringifyJSON = function(obj) {
 
   //recursive cases
   if (Array.isArray(obj) === true) {
-  //if its an array
-    //if its an empty array
-      //base case return array literal '[]'
-    //else
-      //add a '['
-      //iterate on the elements
-        //recurses on all elements
-        //if the return is null
-          //add null to the string
-        //else
-          //add the element to the string
-        //if its not the last element
-          //add comma
-      //add a ']'
-      //return the stringified array
+    if (obj.length === 0) {
+      return '[]';
+    }
+    else
+      stringifiedObject += '['
+      for (var i = 0; i < obj.length; i++) {
+        returnedString = stringifyJSON(obj, stringifiedObject);
+        if (returnedString === null) {
+          stringifiedObject += returnedString.toString();
+        } else {
+          stringifiedObject += retunredString;
+        }
+        if (i < obj.length - 1) {
+          stingifiedObject += ',';
+        }
+      }
+      stringifiedObject += ']'
+      return stringifiedObject;
   } else if (objectType === 'object') {
   //if its an object
     //if its an empty object
