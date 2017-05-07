@@ -24,21 +24,23 @@ var stringifyJSON = function(obj) {
     //update stringifiedObject
 
   //base cases
-  //if its a number
-    //return stringify
-  //if its a boolean
-    //return stringify
-  //if its a string
-    //return the string
-  //if its a null
-    //return stringify
+  if ((objectType === 'number') || (objectType === 'boolean')
+    || (objectType === 'null')) {
+    return obj.toString();
+  } else if (objectType === 'string') {
+    return obj;
+  }
 
   //terminating cases
+  if ((objectType === 'function') || (objectType === 'undefined')) {
   //if its a function
     //return error null
   //if its an undefined
     //return error null
+  }
 
+  //recursive cases
+  if (Array.isArray(obj) === true) {
   //if its an array
     //if its an empty array
       //base case return array literal '[]'
@@ -54,8 +56,7 @@ var stringifyJSON = function(obj) {
           //add comma
       //add a ']'
       //return the stringified array
-
-
+  } else if (objectType === 'object') {
   //if its an object
     //if its an empty object
       //base case return object literal '{}'
@@ -75,5 +76,6 @@ var stringifyJSON = function(obj) {
           //add the stringified value
       //add a '}'
     //return the stringified object
+  }
   return stringifiedObject;
 };
