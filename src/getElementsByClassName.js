@@ -7,13 +7,34 @@
 var getElementsByClassName = function(className) {
   // your code here
   return $(document).ready(function() {
-    var body = $(document).find(body);
+    var body = document.body;
     var nodeList = [];
+
+    var classInList = function(classList, className) {
+      if(classList === undefined) {
+        return false;
+      }
+      for (var i = 0; i < classList.length; i++) {
+        if (classList[i] === className) {
+          return true;
+        }
+      }
+      return false;
+    };
+
     var getClassNodes = function(node, className) {
-      //iterate through the children
-        //recurse on the children
-      //if the this node has the class
+      //if the this node has the class in its list of classes
+      if (classInList(node.classList, className)) {
         //add it to the node list
+        nodeList.push(node);
+      }
+      //iterate through the children
+      if (node.hasChildNodes() === true) {
+        for (var i = 0; i < node.childNodes.length; i++) {
+          //recurse on the children
+          getClassNodes(node.childNodes[i], className);
+        }
+      }
     };
 
     getClassNodes(body, className);
