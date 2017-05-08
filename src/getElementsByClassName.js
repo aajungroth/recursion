@@ -6,7 +6,6 @@
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className) {
   // your code here
-  return $(document).ready(function() {
     var body = document.body;
     var nodeList = [];
 
@@ -39,5 +38,4 @@ var getElementsByClassName = function(className) {
 
     getClassNodes(body, className);
     return nodeList;
-  });
 };
